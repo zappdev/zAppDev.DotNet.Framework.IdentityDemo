@@ -1,0 +1,43 @@
+<h3>Players</h3>
+
+<div class="fab-container">
+
+  <button mat-fab color="primary" (click)="addPlayer()">
+    <mat-icon aria-hidden="false" aria-label="Add">add</mat-icon>
+  </button>
+
+  <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef> Id </mat-header-cell>
+      <mat-cell *matCellDef="let player"> {{player.id}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="firstName">
+      <mat-header-cell *matHeaderCellDef> First Name </mat-header-cell>
+      <mat-cell *matCellDef="let player"> {{player.firstName}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="lastName">
+      <mat-header-cell *matHeaderCellDef> LastName </mat-header-cell>
+      <mat-cell *matCellDef="let player"> {{player.lastName}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="dateOfBirth">
+      <mat-header-cell *matHeaderCellDef> Date of Birth </mat-header-cell>
+      <mat-cell *matCellDef="let player"> {{player.dateOfBirth | date}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+      <mat-cell *matCellDef="let player" (click)="$event.stopPropagation()">
+        <button mat-icon-button color="warn" (click)="deletePlayer(player)">
+          <mat-icon aria-hidden="false" aria-label="Delete">delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="editPlayer(row)"></mat-row>
+  </mat-table>
+</div>

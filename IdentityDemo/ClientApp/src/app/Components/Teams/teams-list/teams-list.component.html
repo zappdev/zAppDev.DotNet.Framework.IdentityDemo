@@ -1,0 +1,43 @@
+<h3>Teams</h3>
+
+<div class="fab-container">
+
+  <button mat-fab color="primary" (click)="addTeam()">
+    <mat-icon aria-hidden="false" aria-label="Add">add</mat-icon>
+  </button>
+
+  <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef> Id </mat-header-cell>
+      <mat-cell *matCellDef="let team"> {{team.id}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+      <mat-cell *matCellDef="let team"> {{team.name}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="city">
+      <mat-header-cell *matHeaderCellDef> City </mat-header-cell>
+      <mat-cell *matCellDef="let team"> {{team.city}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="founded">
+      <mat-header-cell *matHeaderCellDef> Founded </mat-header-cell>
+      <mat-cell *matCellDef="let team"> {{team.founded}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+      <mat-cell *matCellDef="let team" (click)="$event.stopPropagation()">
+        <button mat-icon-button color="warn" (click)="deleteTeam(team)">
+          <mat-icon aria-hidden="false" aria-label="Delete">delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="editTeam(row)"></mat-row>
+  </mat-table>
+</div>

@@ -1,0 +1,31 @@
+<div class="fab-container">
+  <button mat-fab color="primary" (click)="onSave()">
+    <mat-icon aria-hidden="false" aria-label="Save">save</mat-icon>
+  </button>
+
+  <mat-card *ngIf="player">
+    <mat-card-content>
+      <div class="example-container">
+        <mat-form-field>
+          <input matInput [(ngModel)]="player.firstName" placeholder="First Name">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput [(ngModel)]="player.lastName" placeholder="Last Name">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput [matDatepicker]="picker" [(ngModel)]="player.dateOfBirth" placeholder="Choose a date">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select placeholder="Team" [compareWith]="trackTeam" [(ngModel)]="player.team" name="team">
+            <mat-option *ngFor="let team of teams" [value]="team">
+              {{team.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+</div>
