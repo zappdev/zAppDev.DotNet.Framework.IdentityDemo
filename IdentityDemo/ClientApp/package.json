@@ -35,7 +35,8 @@
     "popper.js": "^1.14.3",
     "rxjs": "^6.5.3",
     "zone.js": "^0.9.1",
-    "set-value": ">=2.0.1"
+    "set-value": ">=2.0.1",
+    "extend": ">=3.0.2"
   },
   "devDependencies": {
     "@angular/cli": "~8.3.5",
