@@ -11,6 +11,7 @@ using NHibernate;
 using IdentityDemo.DAL;
 using zAppDev.DotNet.Framework.Utilities;
 using zAppDev.DotNet.Framework.Identity;
+using System;
 
 namespace IdentityDemo
 {
@@ -92,6 +93,8 @@ namespace IdentityDemo
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+            var seeder = new DatabaseSeeder(app.ApplicationServices.GetService<ISessionFactory>());
+            seeder.UpdateAuthorizationTables();
         }
     }
 }
