@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using NHibernate;
 using IdentityDemo.DTOs;
 using IdentityDemo.DAL;
+using zAppDev.DotNet.Framework.Utilities;
 
 namespace IdentityDemo.Controllers
 {
@@ -14,9 +15,12 @@ namespace IdentityDemo.Controllers
     public class CreateAdminController : ControllerBase
     {
         private ISession _session { get; set; }
-        public CreateAdminController(ISession session)
+        private ServiceLocator ServiceLocator { get; set; }
+        public CreateAdminController(ISession session,IServiceProvider serviceProvider)
         {
             _session = session;
+            ServiceLocator = new ServiceLocator(serviceProvider);
+            ServiceLocator.SetLocatorProvider(serviceProvider);
         }
 
         [HttpPost]

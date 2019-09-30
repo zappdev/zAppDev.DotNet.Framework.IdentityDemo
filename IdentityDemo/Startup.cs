@@ -12,6 +12,7 @@ using IdentityDemo.DAL;
 using zAppDev.DotNet.Framework.Utilities;
 using zAppDev.DotNet.Framework.Identity;
 using System;
+using zAppDev.DotNet.Framework.Data;
 
 namespace IdentityDemo
 {
@@ -36,6 +37,7 @@ namespace IdentityDemo
                 session.FlushMode = FlushMode.Manual;
                 return session;
             });
+            services.AddScoped<IMiniSessionService, MiniSessionService>();
             services.AddIdentityManager(Configuration);
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
