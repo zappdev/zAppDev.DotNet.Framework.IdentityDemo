@@ -284,6 +284,8 @@ namespace IdentityDemo
                 CreateOrUpdateRole("Administrator", "Administrator",
                 new [] { manageUsersPermission, manageRolesPermission, managePermissionsPermission, manageOperationsPermission, manageSettingsPermission, manageApplicationDataPermission }, repo),
             };
+            _session.Close();
+            _session.Dispose();
         }
     }
 }

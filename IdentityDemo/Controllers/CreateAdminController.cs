@@ -7,24 +7,25 @@ using NHibernate;
 using IdentityDemo.DTOs;
 using IdentityDemo.DAL;
 using zAppDev.DotNet.Framework.Utilities;
+using zAppDev.DotNet.Framework.Data.DAL;
+using zAppDev.DotNet.Framework.Data;
+using zAppDev.DotNet.Framework.Identity.Model;
 
 namespace IdentityDemo.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class CreateAdminController : ControllerBase
-    {
-        private ISession _session { get; set; }
+    {   
         private ServiceLocator ServiceLocator { get; set; }
-        public CreateAdminController(ISession session,IServiceProvider serviceProvider)
+        public CreateAdminController(IServiceProvider serviceProvider)
         {
-            _session = session;
             ServiceLocator = new ServiceLocator(serviceProvider);
             ServiceLocator.SetLocatorProvider(serviceProvider);
         }
 
         [HttpPost]
-        public ActionResult<zAppDev.DotNet.Framework.Identity.Model.ApplicationUser> CreateAdmin(ApplicationUserDTO userDTO)
+        public ActionResult<ApplicationUser> CreateAdmin(ApplicationUserDTO userDTO)
         {
             if (userDTO.password?.Trim() != userDTO.passwordRepeat?.Trim())
             {
@@ -34,19 +35,25 @@ namespace IdentityDemo.Controllers
             {
                 throw new Exception("No username provided!");
             }
-            zAppDev.DotNet.Framework.Identity.Model.ApplicationRole adminRole = new Repository(_session).GetAsQueryable<zAppDev.DotNet.Framework.Identity.Model.ApplicationRole>((r) => r.Name == "Administrator")?.FirstOrDefault();
-            if ((adminRole == null))
-            {
-                throw new Exception("No Administrator role found in Database!");
-            }
-            zAppDev.DotNet.Framework.Identity.Model.ApplicationUser adminUser = new zAppDev.DotNet.Framework.Identity.Model.ApplicationUser();
+            
+            var adminUser = new ApplicationUser();
             adminUser.UserName = (userDTO.username?.Trim() ?? "");
-            adminUser?.AddRoles(adminRole);
             string possibleError = zAppDev.DotNet.Framework.Identity.IdentityHelper.CreateUser(adminUser, (userDTO.password?.Trim() ?? ""));
             if ((((possibleError == null || possibleError == "")) == false))
             {
                 throw new Exception("Something Went Wrong");
             }
+
+            var repo = new Repository();
+            var adminRole = repo.GetAsQueryable<ApplicationRole>((r) => r.Name == "Administrator")?.FirstOrDefault();
+            if ((adminRole == null))
+            {
+                throw new Exception("No Administrator role found in Database!");
+            }
+            var appAdminUser = repo.GetAsQueryable<ApplicationUser>(a => a.UserName == userDTO.username).FirstOrDefault();
+            appAdminUser.AddRoles(adminRole);
+            repo.Save(appAdminUser);
+
             return CreatedAtAction("CreateAdmin", new { id = adminUser.UserName }, adminUser);
         }
     }

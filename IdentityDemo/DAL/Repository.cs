@@ -5,18 +5,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using zAppDev.DotNet.Framework.Data;
+using zAppDev.DotNet.Framework.Data.DAL;
+using zAppDev.DotNet.Framework.Utilities;
 
 namespace IdentityDemo.DAL
 {
-    public class Repository
+    public class Repository : ICreateRepository
     {
         private readonly ISession _session;
+        private readonly IMiniSessionService _sessionManager;
 
         public Repository(ISession session)
         {
+            _sessionManager = new MiniSessionService(null);
             _session = session;
         }
-        
+
+        public Repository(IMiniSessionService manager = null)
+        {
+            _sessionManager = manager ?? ServiceLocator.Current.GetInstance<IMiniSessionService>();
+            // Make sure the session is open
+            _sessionManager.OpenSession();
+            _session = _sessionManager.Session;
+        }
+
         public List<T> Get<T>(Expression<Func<T, bool>> predicate, bool cacheQuery = true)
         {
             var list = GetAsQueryable(predicate, cacheQuery).ToList();

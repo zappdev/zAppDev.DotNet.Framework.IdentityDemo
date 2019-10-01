@@ -13,6 +13,7 @@ using zAppDev.DotNet.Framework.Utilities;
 using zAppDev.DotNet.Framework.Identity;
 using System;
 using zAppDev.DotNet.Framework.Data;
+using zAppDev.DotNet.Framework.Data.DAL;
 
 namespace IdentityDemo
 {
@@ -38,6 +39,7 @@ namespace IdentityDemo
                 return session;
             });
             services.AddScoped<IMiniSessionService, MiniSessionService>();
+            services.AddScoped<IRepositoryBuilder, DAL.RepositoryBuilder>();
             services.AddIdentityManager(Configuration);
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
@@ -95,8 +97,8 @@ namespace IdentityDemo
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
-            var seeder = new DatabaseSeeder(app.ApplicationServices.GetService<ISessionFactory>());
-            seeder.UpdateAuthorizationTables();
+           var seeder = new DatabaseSeeder(app.ApplicationServices.GetService<ISessionFactory>());
+           seeder.UpdateAuthorizationTables();
         }
     }
 }
