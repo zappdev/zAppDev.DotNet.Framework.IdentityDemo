@@ -29,18 +29,16 @@ namespace IdentityDemo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var factory = DBSessionManager.CreateSessionFactory(Configuration.GetConnectionString("DefaultConnection"));
-            services.AddSingleton<ISessionFactory>(provider => factory);
-            services.AddScoped<ISession>((provider) =>
+            services.AddHibernate(Configuration);
+            var repoBuilder = new DAL.RepositoryBuilder();
+            services.AddSingleton<zAppDev.DotNet.Framework.Data.DAL.IRepositoryBuilder>(repoBuilder);
+            services.AddSession(options =>
             {
-                var sessionFactory = provider.GetService<ISessionFactory>();
-                var session = sessionFactory.OpenSession();
-                session.FlushMode = FlushMode.Manual;
-                return session;
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromSeconds(60);
             });
-            services.AddScoped<IMiniSessionService, MiniSessionService>();
-            services.AddScoped<IRepositoryBuilder, DAL.RepositoryBuilder>();
             services.AddIdentityManager(Configuration);
+           
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(options => {
@@ -50,7 +48,7 @@ namespace IdentityDemo
                         NamingStrategy = new CamelCaseNamingStrategy()
                     };
                 });
-
+            ServiceLocator.SetLocatorProvider(services.BuildServiceProvider());
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -75,15 +73,19 @@ namespace IdentityDemo
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
-
+            
+            app.UseCookiePolicy();
+            app.UseSession();
             app.UseAuthentication();
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
             });
+            var factory = app.ApplicationServices.GetService(typeof(ISessionFactory)) as ISessionFactory;
+            var seeder = new DatabaseSeeder(app.ApplicationServices.GetService<ISessionFactory>());
+            seeder.UpdateAuthorizationTables();
 
             app.UseSpa(spa =>
             {
@@ -97,8 +99,7 @@ namespace IdentityDemo
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
-           var seeder = new DatabaseSeeder(app.ApplicationServices.GetService<ISessionFactory>());
-           seeder.UpdateAuthorizationTables();
+           
         }
     }
 }

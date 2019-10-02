@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using NHibernate;
 using NHibernate.Event;
 using NHibernate.Tool.hbm2ddl;
@@ -49,6 +51,26 @@ namespace IdentityDemo.DAL
                 updateCode.AppendLine();
             }, true);
         }
+    }
 
+    public static class ServiceCollectionExtensions
+    {
+        public static void AddHibernate(this IServiceCollection services, IConfiguration configuration)
+        {
+            var connectionSource = configuration.GetConnectionString("DefaultConnection");
+            // Singleton objects are the same for every object and every request.
+            var factory = DBSessionManager.CreateSessionFactory(connectionSource);
+            services.AddSingleton(provider => factory);
+            // Scoped objects are the same within a request, but different across different requests.
+            services.AddScoped((provider) =>
+            {
+                var factoryLocal = provider.GetService<ISessionFactory>();
+                var session = factoryLocal.OpenSession();
+                session.FlushMode = FlushMode.Manual;
+                return session;
+            });
+            services.AddScoped<IMiniSessionService, MiniSessionService>();
+            services.AddScoped<IRepository, Repository>();
+        }
     }
 }

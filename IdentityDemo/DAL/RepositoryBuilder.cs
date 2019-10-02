@@ -13,96 +13,35 @@ namespace IdentityDemo.DAL
 {
     public class RepositoryBuilder: IRepositoryBuilder
     {
-        private readonly ISessionFactory _factory;
-
-        public RepositoryBuilder(ISessionFactory factory)
-        {
-            _factory = factory;
-        }
-
-        public IAuditingRepository CreateAuditingRepository(IMiniSessionService sessionManager = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ICreateRepository CreateCreateRepository(MiniSessionService manager = null)
-        {
-            return CreateCreateRepository((IMiniSessionService)manager);
-        }
-
-        public ICreateRepository CreateCreateRepository(IMiniSessionService sessionManager)
-        {
-            return new Repository(sessionManager);
-        }
-
-        public IDeleteRepository CreateDeleteRepository(MiniSessionService manager = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IDeleteRepository CreateDeleteRepository(IMiniSessionService manager)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IIdentityRepository CreateIdentityRepository(MiniSessionService sessionManager = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IIdentityRepository CreateIdentityRepository(IMiniSessionService sessionManager)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IRetrieveRepository CreateRetrieveRepository(MiniSessionService manager = null)
-        {
-            return CreateCreateRepository((IMiniSessionService)manager);
-        }
-
-        public IRetrieveRepository CreateRetrieveRepository(IMiniSessionService manager)
-        {
-            return CreateCreateRepository(manager);
-        }
-
-        public IUpdateRepository CreateUpdateRepository(MiniSessionService manager = null)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IUpdateRepository CreateUpdateRepository(IMiniSessionService manager)
-        {
-            throw new NotImplementedException();
-        }
+        public IUpdateRepository CreateUpdateRepository(MiniSessionService manager = null) => new Repository(manager);
 
         public IWorkflowRepository CreateWorkflowRepository(MiniSessionService manager = null)
         {
             throw new NotImplementedException();
         }
 
-        public IWorkflowRepository CreateWorkflowRepository(IMiniSessionService manager)
-        {
-            throw new NotImplementedException();
-        }
+        public ICreateRepository CreateCreateRepository(MiniSessionService manager = null) => new Repository(manager);
 
-        IIdentityRepository IRepositoryBuilder.CreateIdentityRepository(MiniSessionService sessionManager)
-        {
-            throw new NotImplementedException();
-        }
+        public IDeleteRepository CreateDeleteRepository(MiniSessionService manager = null) => new Repository(manager);
 
-        IIdentityRepository IRepositoryBuilder.CreateIdentityRepository(IMiniSessionService sessionManager)
-        {
-            throw new NotImplementedException();
-        }
+        public IIdentityRepository CreateIdentityRepository(MiniSessionService manager = null) => new Repository(manager);
 
-        IWorkflowRepository IRepositoryBuilder.CreateWorkflowRepository(MiniSessionService manager)
-        {
-            throw new NotImplementedException();
-        }
+        public IRetrieveRepository CreateRetrieveRepository(MiniSessionService manager = null) => new Repository(manager);
 
-        IWorkflowRepository IRepositoryBuilder.CreateWorkflowRepository(IMiniSessionService manager)
-        {
-            throw new NotImplementedException();
-        }
+        public IDeleteRepository CreateDeleteRepository(IMiniSessionService manager) => new Repository(manager);
+
+        public IIdentityRepository CreateIdentityRepository(IMiniSessionService manager) => new Repository(manager);
+
+        public IRetrieveRepository CreateRetrieveRepository(IMiniSessionService manager) => new Repository(manager);
+
+        public ICreateRepository CreateCreateRepository(IMiniSessionService manager) => new Repository(manager);
+
+        public IUpdateRepository CreateUpdateRepository(IMiniSessionService manager) => new Repository(manager);
+
+        public IWorkflowRepository CreateWorkflowRepository(IMiniSessionService manager) => throw new NotImplementedException();
+
+        public IAuditingRepository CreateAuditingRepository(MiniSessionService manager) => throw new NotImplementedException();
+
+        public IAuditingRepository CreateAuditingRepository(IMiniSessionService manager) => throw new NotImplementedException();
     }
 }
