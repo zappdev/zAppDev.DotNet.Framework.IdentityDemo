@@ -14,6 +14,8 @@ using zAppDev.DotNet.Framework.Identity;
 using System;
 using zAppDev.DotNet.Framework.Data;
 using zAppDev.DotNet.Framework.Data.DAL;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace IdentityDemo
 {
@@ -48,6 +50,25 @@ namespace IdentityDemo
                         NamingStrategy = new CamelCaseNamingStrategy()
                     };
                 });
+            var secretValue =  Configuration.GetSection("Secret").Value;
+            var key = EncodingUtilities.StringToByteArray(secretValue, "ascii");
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
             ServiceLocator.SetLocatorProvider(services.BuildServiceProvider());
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

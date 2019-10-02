@@ -1,0 +1,19 @@
+<div class="fab-container">
+  <button mat-fab color="primary" (click)="signIn()">
+    <mat-icon aria-hidden="false" aria-label="Log In">input</mat-icon>
+  </button>
+
+  <mat-card *ngIf="appUser">
+    <mat-card-content>
+      <div class="example-container">
+        <mat-form-field>
+          <input matInput [(ngModel)]="appUser.username" placeholder="Username">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput type="password" [(ngModel)]="appUser.password" placeholder="Password">
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+</div>

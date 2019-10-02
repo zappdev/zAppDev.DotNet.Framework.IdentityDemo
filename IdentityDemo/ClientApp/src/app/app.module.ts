@@ -11,6 +11,7 @@ import { PlayersDetailsComponent } from './Components/Players/players-details/pl
 import { TeamsListComponent } from './Components/Teams/teams-list/teams-list.component';
 import { TeamsDetailsComponent } from './Components/Teams/teams-details/teams-details.component';
 import { CreateAdminComponent } from './Components/create-admin/create-admin.component';
+import { SignInComponent } from './Components/SignIn/sign-in.component';
 import { MatNativeDateModule, MatGridListModule, MatFormFieldModule, MatListModule, MatCardModule, MatTableModule, MatIconModule, MatInputModule, MatButtonModule, MatDatepickerModule, MatSelectModule, MatCheckboxModule } from '@angular/material';
 import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -25,7 +26,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     PlayersDetailsComponent,
     TeamsListComponent,
     TeamsDetailsComponent,
-    CreateAdminComponent
+    CreateAdminComponent,
+    SignInComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -53,7 +55,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       { path: 'teams', component: TeamsListComponent, pathMatch: 'full' },
       { path: 'team-add', component: TeamsDetailsComponent, pathMatch: 'full' },
       { path: 'team-edit/:id', component: TeamsDetailsComponent, pathMatch: 'full' },
-      { path: 'createAdmin', component: CreateAdminComponent, pathMatch: 'full' }
+      { path: 'createAdmin', component: CreateAdminComponent, pathMatch: 'full' },
+      { path: 'signIn', component: SignInComponent, pathMatch: 'full' }
     ])
   ],
   providers: [
