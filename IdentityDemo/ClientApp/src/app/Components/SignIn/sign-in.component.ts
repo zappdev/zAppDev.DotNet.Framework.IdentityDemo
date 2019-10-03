@@ -28,10 +28,13 @@ export class SignInComponent implements OnInit {
 
     signIn() {
         this._authSerive.signIn(this.appUser.username, this.appUser.password);
-        this.redirect();
+        setTimeout(() => {
+            this.redirect();
+        }, 1000);
+       // setInterval(this.redirect, 700);
     }
 
-    redirect() {
-        this._router.navigate(['/']);
+    redirect(): void {
+        this._router.navigate(['/players']);
     }
 }

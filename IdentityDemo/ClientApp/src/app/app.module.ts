@@ -15,6 +15,7 @@ import { SignInComponent } from './Components/SignIn/sign-in.component';
 import { MatNativeDateModule, MatGridListModule, MatFormFieldModule, MatListModule, MatCardModule, MatTableModule, MatIconModule, MatInputModule, MatButtonModule, MatDatepickerModule, MatSelectModule, MatCheckboxModule } from '@angular/material';
 import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AccessGuard } from './Helpers/AccessGuard';
 
 
 @NgModule({
@@ -29,38 +30,39 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     CreateAdminComponent,
     SignInComponent
   ],
-  imports: [
-    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
-    HttpClientModule,
-    FormsModule,
-    MatNativeDateModule,
-    MatGridListModule,
-    MatFormFieldModule,
-    MatListModule,
-    MatCardModule,
-    MatTableModule,
-    MatIconModule,
-    MatInputModule,
-    MatButtonModule,
-    MatDatepickerModule,
-    MatSelectModule,
-    MatCheckboxModule,
-    MatMomentDateModule,
-    BrowserAnimationsModule,
-    RouterModule.forRoot([
-      { path: '', component: PlayersListComponent, pathMatch: 'full' },
-      { path: 'players', component: PlayersListComponent, pathMatch: 'full' },
-      { path: 'player-add', component: PlayersDetailsComponent, pathMatch: 'full' },
-      { path: 'player-edit/:id', component: PlayersDetailsComponent, pathMatch: 'full' },
-      { path: 'teams', component: TeamsListComponent, pathMatch: 'full' },
-      { path: 'team-add', component: TeamsDetailsComponent, pathMatch: 'full' },
-      { path: 'team-edit/:id', component: TeamsDetailsComponent, pathMatch: 'full' },
+    imports: [
+        BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+        HttpClientModule,
+        FormsModule,
+        MatNativeDateModule,
+        MatGridListModule,
+        MatFormFieldModule,
+        MatListModule,
+        MatCardModule,
+        MatTableModule,
+        MatIconModule,
+        MatInputModule,
+        MatButtonModule,
+        MatDatepickerModule,
+        MatSelectModule,
+        MatCheckboxModule,
+        MatMomentDateModule,
+        BrowserAnimationsModule,
+        RouterModule.forRoot([
+      { path: '', component: PlayersListComponent, pathMatch: 'full', canActivate: [AccessGuard]},
+      { path: 'players', component: PlayersListComponent, pathMatch: 'full', canActivate: [AccessGuard] },
+      { path: 'player-add', component: PlayersDetailsComponent, pathMatch: 'full', canActivate: [AccessGuard] },
+      { path: 'player-edit/:id', component: PlayersDetailsComponent, pathMatch: 'full', canActivate: [AccessGuard] },
+      { path: 'teams', component: TeamsListComponent, pathMatch: 'full', canActivate: [AccessGuard] },
+      { path: 'team-add', component: TeamsDetailsComponent, pathMatch: 'full', canActivate: [AccessGuard] },
+      { path: 'team-edit/:id', component: TeamsDetailsComponent, pathMatch: 'full',canActivate: [AccessGuard] },
       { path: 'createAdmin', component: CreateAdminComponent, pathMatch: 'full' },
       { path: 'signIn', component: SignInComponent, pathMatch: 'full' }
     ])
   ],
   providers: [
-    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
+      { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } },
+      AccessGuard
   ],
   bootstrap: [AppComponent]
 })

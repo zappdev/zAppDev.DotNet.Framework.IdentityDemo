@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Output, EventEmitter } from '@angular/core';
 import { ApplicationUser } from '../Models/Identity/ApplicationUser';
 import { HttpClient } from '@angular/common/http';
 
@@ -9,6 +9,7 @@ const moment = _moment;
   providedIn: 'root'
 })
 export class AuthService {
+    @Output() getLoggedIn: EventEmitter<any> = new EventEmitter();
 
     private _httpClient: HttpClient
 
@@ -20,6 +21,7 @@ export class AuthService {
         return this.consumeBackEnd(username, password).subscribe(
             (data) => {
                 this.setSession(data)
+                this.getLoggedIn.emit(true);
             },
         );
     }
@@ -39,6 +41,7 @@ export class AuthService {
     logout() {
         localStorage.removeItem("id_token");
         localStorage.removeItem("expires_at");
+        this.getLoggedIn.emit(false);
     }
 
     public isLoggedIn() {

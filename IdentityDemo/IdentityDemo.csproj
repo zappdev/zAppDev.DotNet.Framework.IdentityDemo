@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\Helpers\AccessGuard.ts" />
     <None Remove="ClientApp\src\app\Models\Identity\ApplicationUser.ts" />
     <None Remove="ClientApp\src\app\Models\Player.ts" />
     <None Remove="ClientApp\src\app\Models\Team.ts" />
@@ -43,6 +44,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\Helpers\AccessGuard.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Models\Identity\ApplicationUser.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Models\Player.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\Models\Team.ts" />
