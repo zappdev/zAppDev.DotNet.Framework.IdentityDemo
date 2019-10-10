@@ -7,22 +7,18 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" [ngClass]='{"show": isExpanded}'>
-        <ul class="navbar-nav flex-grow">
-          <li *ngIf="isLoggedIn" class="nav-item" [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
-            <a class="nav-link text-dark" [routerLink]='["/"]'>Players</a>
-          </li>
-          <li *ngIf="isLoggedIn" class="nav-item" [routerLinkActive]='["link-active"]'>
-            <a class="nav-link text-dark" [routerLink]='["/teams"]'>Teams</a>
-          </li>
-          <li *ngIf="isLoggedOut" class="nav-item" [routerLinkActive]='["link-active"]'>
-            <a class="nav-link text-dark" [routerLink]='["/signIn"]'>Sign In</a>
-          </li>
-          <li *ngIf="isLoggedIn" class="nav-item" [routerLinkActive]='["link-active"]'>
-            <button mat-fab color="primary" (click)="signOut()">
-              <mat-icon aria-hidden="false" aria-label="Log In">input</mat-icon>
-            </button>
-          </li>
-        </ul>
+        <button *ngIf="isLoggedIn" mat-button [matMenuTriggerFor]="menu">Menu</button>
+        <mat-menu #menu="matMenu">
+          <a class="nav-link text-dark" [routerLink]='["/"]'>Players</a>
+          <a class="nav-link text-dark" [routerLink]='["/teams"]'>Teams</a>
+          <button  mat-menu-item [matMenuTriggerFor]="settings">Settings</button>
+        </mat-menu>
+        <mat-menu #settings="matMenu" xPosition="after">
+        </mat-menu>
+        <a *ngIf="isLoggedOut" class="nav-link text-dark" [routerLink]='["/signIn"]'>Sign In</a>
+        <button *ngIf="isLoggedIn" class="signOutButton"  mat-fab color="primary" (click)="signOut()">
+          <mat-icon aria-hidden="false" aria-label="Log In">input</mat-icon>
+        </button>
       </div>
     </div>
   </nav>

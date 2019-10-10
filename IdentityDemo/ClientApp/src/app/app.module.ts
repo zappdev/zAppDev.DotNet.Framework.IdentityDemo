@@ -12,7 +12,7 @@ import { TeamsListComponent } from './Components/Teams/teams-list/teams-list.com
 import { TeamsDetailsComponent } from './Components/Teams/teams-details/teams-details.component';
 import { CreateAdminComponent } from './Components/create-admin/create-admin.component';
 import { SignInComponent } from './Components/SignIn/sign-in.component';
-import { MatNativeDateModule, MatGridListModule, MatFormFieldModule, MatListModule, MatCardModule, MatTableModule, MatIconModule, MatInputModule, MatButtonModule, MatDatepickerModule, MatSelectModule, MatCheckboxModule } from '@angular/material';
+import { MatNativeDateModule, MatGridListModule, MatFormFieldModule, MatListModule, MatCardModule, MatTableModule, MatIconModule, MatInputModule, MatButtonModule, MatDatepickerModule, MatSelectModule, MatCheckboxModule, MatMenuModule } from '@angular/material';
 import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AccessGuard } from './Helpers/AccessGuard';
@@ -47,6 +47,7 @@ import { AccessGuard } from './Helpers/AccessGuard';
         MatSelectModule,
         MatCheckboxModule,
         MatMomentDateModule,
+        MatMenuModule,
         BrowserAnimationsModule,
         RouterModule.forRoot([
       { path: '', component: PlayersListComponent, pathMatch: 'full', canActivate: [AccessGuard]},
@@ -55,7 +56,7 @@ import { AccessGuard } from './Helpers/AccessGuard';
       { path: 'player-edit/:id', component: PlayersDetailsComponent, pathMatch: 'full', canActivate: [AccessGuard] },
       { path: 'teams', component: TeamsListComponent, pathMatch: 'full', canActivate: [AccessGuard] },
       { path: 'team-add', component: TeamsDetailsComponent, pathMatch: 'full', canActivate: [AccessGuard] },
-      { path: 'team-edit/:id', component: TeamsDetailsComponent, pathMatch: 'full',canActivate: [AccessGuard] },
+      { path: 'team-edit/:id', component: TeamsDetailsComponent, pathMatch: 'full', canActivate: [AccessGuard] },
       { path: 'createAdmin', component: CreateAdminComponent, pathMatch: 'full' },
       { path: 'signIn', component: SignInComponent, pathMatch: 'full' }
     ])
