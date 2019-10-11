@@ -14,6 +14,7 @@
           <button  mat-menu-item [matMenuTriggerFor]="settings">Settings</button>
         </mat-menu>
         <mat-menu #settings="matMenu" xPosition="after">
+          <a class="nav-link text-dark" [routerLink]='["/users"]'>Manage Users</a>
         </mat-menu>
         <a *ngIf="isLoggedOut" class="nav-link text-dark" [routerLink]='["/signIn"]'>Sign In</a>
         <button *ngIf="isLoggedIn" class="signOutButton"  mat-fab color="primary" (click)="signOut()">

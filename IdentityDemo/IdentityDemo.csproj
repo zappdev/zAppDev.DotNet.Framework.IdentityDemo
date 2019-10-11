@@ -35,6 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ClientApp\src\app\Components\Administration\" />
     <Folder Include="ClientApp\src\app\Components\Teams\" />
     <Folder Include="ClientApp\src\app\Components\Players\" />
   </ItemGroup>

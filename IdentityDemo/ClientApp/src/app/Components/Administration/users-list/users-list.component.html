@@ -1,0 +1,34 @@
+<h3>Users</h3>
+
+<div class="fab-container">
+
+  <button mat-fab color="primary" (click)="addUser()">
+    <mat-icon aria-hidden="false" aria-label="Add">add</mat-icon>
+  </button>
+
+  <mat-table [dataSource]="datasource" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="username">
+      <mat-header-cell *matHeaderCellDef> Username </mat-header-cell>
+      <mat-cell *matCellDef="let user"> {{user.username}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="Name">
+      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+      <mat-cell *matCellDef="let user"> {{user.name}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="Email">
+      <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
+      <mat-cell *matCellDef="let user"> {{user.email}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="phoneNumber">
+      <mat-header-cell *matHeaderCellDef> Phone Number </mat-header-cell>
+      <mat-cell *matCellDef="let user"> {{user.phoneNumber}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="editUser(row)"></mat-row>
+  </mat-table>
+</div>
