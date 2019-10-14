@@ -1,0 +1,23 @@
+<div class="fab-container">
+  <button mat-fab color="primary" (click)="onSave()">
+    <mat-icon aria-hidden="false" aria-label="Save">save</mat-icon>
+  </button>
+
+  <mat-card *ngIf="permission">
+    <mat-card-content>
+      <div class="example-container">
+        <mat-form-field>
+          <input matInput [(ngModel)]="permission.id" readonly="true" placeholder="Id">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput [(ngModel)]="permission.name" placeholder="Name">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput [(ngModel)]="permission.description" placeholder="Description">
+        </mat-form-field>
+        <mat-checkbox matInput [(ngModel)]="permission.isCustom">Is Custom</mat-checkbox>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+</div>

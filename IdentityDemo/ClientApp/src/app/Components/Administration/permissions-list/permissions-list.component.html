@@ -1,0 +1,29 @@
+<h3>Permissions</h3>
+
+<div class="fab-container">
+
+  <button mat-fab color="primary" (click)="addPermission()">
+    <mat-icon aria-hidden="false" aria-label="Add">add</mat-icon>
+  </button>
+
+  <mat-table [dataSource]="datasource" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+      <mat-cell *matCellDef="let permission"> {{permission.name}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+      <mat-cell *matCellDef="let permission"> {{permission.description}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="isCustom">
+      <mat-header-cell *matHeaderCellDef> Is Custom</mat-header-cell>
+      <mat-cell *matCellDef="let permission"> {{permission.isCustom}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="editPermission(row)"></mat-row>
+  </mat-table>
+</div>

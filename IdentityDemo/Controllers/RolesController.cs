@@ -128,11 +128,24 @@ namespace IdentityDemo.Controllers
         }
 
         [HttpPost]
-        public ActionResult<ApplicationRoleDTO> PostRole(ApplicationRole applicationRole)
+        public ActionResult<ApplicationRoleDTO> PostRole(ApplicationRoleDTO applicationRoleDTO)
         {
             var manager = ServiceLocator.Current.GetInstance<IMiniSessionService>();
             var repo = new Repository(manager);
+
+            var applicationRole = new ApplicationRole
+            {
+                Description = applicationRoleDTO.Description,
+                Name = applicationRoleDTO.Name,
+                IsCustom = applicationRoleDTO.IsCustom
+            };
+            foreach (var permissionDTO in applicationRoleDTO.Permissions)
+            {
+                var applicationPermission = repo.GetById<ApplicationPermission>(permissionDTO.Id);
+                applicationRole.AddPermissions(applicationPermission);
+            }
             repo.Save<ApplicationRole>(applicationRole);
+            manager.Session.Flush();
             return CreatedAtAction("PostRole", new { id = applicationRole.Id }, applicationRole);
         }
 

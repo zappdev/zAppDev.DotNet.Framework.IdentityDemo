@@ -1,0 +1,29 @@
+<h3>Roles</h3>
+
+<div class="fab-container">
+
+  <button mat-fab color="primary" (click)="addRole()">
+    <mat-icon aria-hidden="false" aria-label="Add">add</mat-icon>
+  </button>
+
+  <mat-table [dataSource]="datasource" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+      <mat-cell *matCellDef="let role"> {{role.name}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+      <mat-cell *matCellDef="let role"> {{role.description}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="isCustom">
+      <mat-header-cell *matHeaderCellDef> Is Custom</mat-header-cell>
+      <mat-cell *matCellDef="let role"> {{role.isCustom}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="editRole(row)"></mat-row>
+  </mat-table>
+</div>
