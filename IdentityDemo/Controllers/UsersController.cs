@@ -75,7 +75,17 @@ namespace IdentityDemo.Controllers
                 phoneNumber = applicationUser.PhoneNumber,
                 username = applicationUser.UserName
             };
-            
+            foreach(var role in applicationUser.Roles)
+            {
+                var roleDTO = new ApplicationRoleDTO
+                { 
+                    Description = role.Description,
+                    Id = role.Id,
+                    IsCustom = role.IsCustom,
+                    Name = role.Name
+                };
+                userDto.roles.Add(roleDTO);
+            }
             return Ok(new
                 {
                     value = userDto
@@ -97,18 +107,48 @@ namespace IdentityDemo.Controllers
             applicationUser.Name = userDTO.name;
             applicationUser.Email = userDTO.email;
             applicationUser.PhoneNumber = userDTO.phoneNumber;
+            applicationUser.ClearRoles();
+            foreach(var roleDTO in userDTO.roles)
+            {
+                var applicationRole = repo.GetById<ApplicationRole>(roleDTO.Id);
+                applicationUser.AddRoles(applicationRole);
+            }
             repo.Save<ApplicationUser>(applicationUser);
             manager.Session.Flush();
             return NoContent();
         }
         
         [HttpPost]
-        public ActionResult<ApplicationUserDTO> PostTeam(ApplicationUser user)
+        public ActionResult<ApplicationUserDTO> PostUser(ApplicationUserDTO userDTO)
         {
+            if (userDTO.password?.Trim() != userDTO.passwordRepeat?.Trim())
+            {
+                throw new Exception("Passwords do not match!");
+            }
+            if (userDTO.username == null || userDTO.username?.Trim() == "" )
+            {
+                throw new Exception("No username provided!");
+            }
             var manager = ServiceLocator.Current.GetInstance<IMiniSessionService>();
             var repo = new Repository(manager);
-            repo.Save<ApplicationUser>(user);
-            return CreatedAtAction("PostUser", new { id = user.UserName}, user);
+            var applicationUser = new ApplicationUser();
+            applicationUser.UserName = userDTO.username;
+            applicationUser.Name = userDTO.name;
+            applicationUser.Email = userDTO.email;
+            applicationUser.PhoneNumber = userDTO.phoneNumber;
+            string possibleError = zAppDev.DotNet.Framework.Identity.IdentityHelper.CreateUser(applicationUser, (userDTO.password?.Trim() ?? ""));
+            if ((((possibleError == null || possibleError == "")) == false))
+            {
+                throw new Exception("Something Went Wrong");
+            }
+            foreach(var roleDTO in userDTO.roles)
+            {
+                var role = repo.GetById<ApplicationRole>(roleDTO.Id);
+                applicationUser.AddRoles(role);
+            }
+            repo.Save<ApplicationUser>(applicationUser);
+            manager.Session.Flush();
+            return CreatedAtAction("PostUser", new { id = applicationUser.UserName});
         }
 
         [HttpDelete("{id}")]

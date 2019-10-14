@@ -7,7 +7,13 @@
     <mat-card-content>
       <div class="example-container">
         <mat-form-field>
-          <input matInput [(ngModel)]="user.username" readonly="true" placeholder="Username">
+          <input matInput [(ngModel)]="user.username" [readonly]="!add" placeholder="Username">
+        </mat-form-field>
+        <mat-form-field *ngIf="add">
+          <input matInput  type="password" [(ngModel)]="password" placeholder="Password">
+        </mat-form-field>
+        <mat-form-field *ngIf="add">
+          <input matInput  type="password" [(ngModel)]="passwordRepeat" placeholder="Repeat Password">
         </mat-form-field>
         <mat-form-field>
           <input matInput [(ngModel)]="user.name" placeholder="Name">
@@ -17,6 +23,13 @@
         </mat-form-field>
         <mat-form-field>
           <input matInput [(ngModel)]="user.phoneNumber" placeholder="Phone Number">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select multiple placeholder="Roles" [compareWith]="trackRole" [(ngModel)]="user.roles" name="role">
+            <mat-option *ngFor="let role of roles" [value]="role">
+              {{role.name}}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
       </div>
     </mat-card-content>

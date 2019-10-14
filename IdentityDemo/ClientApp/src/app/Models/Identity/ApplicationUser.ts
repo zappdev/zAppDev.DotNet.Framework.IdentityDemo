@@ -1,3 +1,5 @@
+import { ApplicationRole } from "./ApplicationRole";
+
 export class ApplicationUser {
     username: string;
     emailConfirmend: boolean;
@@ -11,4 +13,5 @@ export class ApplicationUser {
     lockoutEndDate: Date;
     password: string;
     passwordRepeat: string;
+    roles: ApplicationRole[];
 }

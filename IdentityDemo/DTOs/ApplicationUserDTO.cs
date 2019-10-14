@@ -22,5 +22,10 @@ namespace IdentityDemo.DTOs
         public byte[] versionTimestamp { get; set; }
         public string password { get; set; }
         public string passwordRepeat { get; set; }
+        public List<ApplicationRoleDTO> roles { get; set; }
+        public ApplicationUserDTO()
+        {
+            this.roles = new List<ApplicationRoleDTO>();
+        }
 }
 }
