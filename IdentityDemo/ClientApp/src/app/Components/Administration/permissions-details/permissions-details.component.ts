@@ -22,6 +22,7 @@ export class PermissionsDetailsComponent implements OnInit {
         if (path === "permission-add") {
             this.add = true;
             this.permission = new ApplicationPermission();
+            this.permission.isCustom = true;
         } else {
             let id = this._router.snapshot.paramMap.get('id');
             this._permissionService.getApplicationPermission(id).subscribe(
