@@ -17,6 +17,7 @@
           <a class="nav-link text-dark" [routerLink]='["/users"]'>Manage Users</a>
           <a class="nav-link text-dark" [routerLink]='["/roles"]'>Manage Roles</a>
           <a class="nav-link text-dark" [routerLink]='["/permissions"]'>Manage Permissions</a>
+          <a class="nav-link text-dark" [routerLink]='["/operations"]'>Manage Operations</a>
         </mat-menu>
         <a *ngIf="isLoggedOut" class="nav-link text-dark" [routerLink]='["/signIn"]'>Sign In</a>
         <button *ngIf="isLoggedIn" class="signOutButton"  mat-fab color="primary" (click)="signOut()">

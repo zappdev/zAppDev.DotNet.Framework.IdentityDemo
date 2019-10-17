@@ -18,6 +18,8 @@ import { PermissionsListComponent } from './Components/Administration/permission
 import { PermissionsDetailsComponent } from './Components/Administration/permissions-details/permissions-details.component';
 import { RolesListComponent } from './Components/Administration/roles-list/roles-list.component';
 import { RolesDetailsComponent } from './Components/Administration/roles-details/roles-details.component';
+import { OperationsListComponent } from './Components/Administration/operations-list/operations-list.component';
+import { OperationsDetailsComponent } from './Components/Administration/operations-details/operations-details.component';
 import { MatNativeDateModule, MatGridListModule, MatFormFieldModule, MatListModule, MatCardModule, MatTableModule, MatIconModule, MatInputModule, MatButtonModule, MatDatepickerModule, MatSelectModule, MatCheckboxModule, MatMenuModule } from '@angular/material';
 import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -40,7 +42,9 @@ import { AccessGuard } from './Helpers/AccessGuard';
     PermissionsListComponent,
     PermissionsDetailsComponent,
     RolesListComponent,
-    RolesDetailsComponent
+    RolesDetailsComponent,
+    OperationsListComponent,
+    OperationsDetailsComponent
   ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -78,6 +82,9 @@ import { AccessGuard } from './Helpers/AccessGuard';
       { path: 'roles', component: RolesListComponent, pathMatch: 'full', canActivate: [AccessGuard] },
       { path: 'role-add', component: RolesDetailsComponent, pathMatch: 'full', canActivate: [AccessGuard] },
       { path: 'role-edit/:id', component: RolesDetailsComponent, pathMatch: 'full', canActivate: [AccessGuard] },
+      { path: 'operations', component: OperationsListComponent, pathMatch: 'full', canActivate: [AccessGuard] },
+      { path: 'operation-add', component: OperationsDetailsComponent, pathMatch: 'full', canActivate: [AccessGuard] },
+      { path: 'operation-edit/:id', component: OperationsDetailsComponent, pathMatch: 'full', canActivate: [AccessGuard] },
       { path: 'createAdmin', component: CreateAdminComponent, pathMatch: 'full' },
       { path: 'signIn', component: SignInComponent, pathMatch: 'full' }
     ])

@@ -1,0 +1,31 @@
+<div class="fab-container">
+  <button mat-fab color="primary" (click)="onSave()">
+    <mat-icon aria-hidden="false" aria-label="Save">save</mat-icon>
+  </button>
+
+  <mat-card *ngIf="applicationOperation">
+    <mat-card-content>
+      <div class="example-container">
+        <mat-form-field>
+          <input matInput [(ngModel)]="applicationOperation.id" readonly placeholder="Id">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput [(ngModel)]="applicationOperation.name" placeholder="Name">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput [(ngModel)]="applicationOperation.type" placeholder="Type">
+        </mat-form-field>
+        <mat-checkbox matInput [(ngModel)]="applicationOperation.isAvailableToAnonymoys">Is Available To Anonymoys</mat-checkbox>
+        <mat-checkbox matInput [(ngModel)]="applicationOperation.IsAvailableToAllAuthorizedUsers">Is Available To All Authorized Users</mat-checkbox>
+        <mat-form-field>
+          <mat-select multiple placeholder="Permissions" [compareWith]="trackPermission" [(ngModel)]="applicationOperation.permissions" name="permission">
+            <mat-option *ngFor="let permission of applicationPermissions" [value]="permission">
+              {{permission.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+</div>

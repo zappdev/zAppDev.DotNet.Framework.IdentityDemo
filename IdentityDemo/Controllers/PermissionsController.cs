@@ -92,7 +92,7 @@ namespace IdentityDemo.Controllers
             }
             applicationPermission.Name = applicationPermissionsDTO.Name;
             applicationPermission.IsCustom = applicationPermissionsDTO.IsCustom;
-            applicationPermission.Description = applicationPermission.Description;
+            applicationPermission.Description = applicationPermissionsDTO.Description;
             repo.Save<ApplicationPermission>(applicationPermission);
             manager.Session.Flush();
             return NoContent();

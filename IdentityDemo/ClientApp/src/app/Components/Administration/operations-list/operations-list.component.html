@@ -1,0 +1,29 @@
+<h3>Operations</h3>
+
+<div class="fab-container">
+
+  <button mat-fab color="primary" (click)="addOperation()">
+    <mat-icon aria-hidden="false" aria-label="Add">add</mat-icon>
+  </button>
+
+  <mat-table [dataSource]="datasource" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+      <mat-cell *matCellDef="let operation"> {{operation.name}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="isAvailableToAnonymoys">
+      <mat-header-cell *matHeaderCellDef> Is Available to Anonymous </mat-header-cell>
+      <mat-cell *matCellDef="let operation"> {{operation.isAvailableToAnonymoys}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="isAvailableToAllAuthorizedUsers">
+      <mat-header-cell *matHeaderCellDef> Is Available to all Authorized Users</mat-header-cell>
+      <mat-cell *matCellDef="let operation"> {{operation.isAvailableToAllAuthorizedUsers}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="editOperation(row)"></mat-row>
+  </mat-table>
+</div>
