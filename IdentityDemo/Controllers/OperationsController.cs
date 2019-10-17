@@ -123,8 +123,9 @@ namespace IdentityDemo.Controllers
             foreach(var permissionDTO in applicationOperationDTO.Permissions)
             {
                 var permission = repo.GetById<ApplicationPermission>(permissionDTO.Id);
-                applicationOperation.Permissions.Add(permission);
+                applicationOperation.AddPermissions(permission);
             }
+            repo.Save(applicationOperation);
             manager.Session.Flush();
             return NoContent();
         }

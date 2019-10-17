@@ -40,6 +40,30 @@ namespace IdentityDemo.Controllers
             else
             {
                 var applicationUser = IdentityHelper.GetApplicationUserByName(userdto.username);
+
+                var applicationUserDTO = new ApplicationUserDTO
+                {
+                    username = applicationUser.UserName
+                };
+                foreach(var role in applicationUser.Roles)
+                {
+                    var roleDTO = new ApplicationRoleDTO
+                    {
+                        Id = role.Id,
+                        Name = role.Name
+                    };
+                    foreach(var permission in role.Permissions)
+                    {
+                        var permissionDTO = new ApplicationPermissionDTO
+                        {
+                            Id = permission.Id,
+                            Name = permission.Name
+                        };
+                        roleDTO.Permissions.Add(permissionDTO);
+                    }
+                    applicationUserDTO.roles.Add(roleDTO);
+                }
+
                 Claim claim = null;
                 if (applicationUser.Claims.Any())
                 {
@@ -60,7 +84,8 @@ namespace IdentityDemo.Controllers
                 var result = new
                 {
                     idToken = token,
-                    expiresIn = 120
+                    expiresIn = 120,
+                    applicationUser = applicationUserDTO
                 };
                 
                 manager.CloseSession();

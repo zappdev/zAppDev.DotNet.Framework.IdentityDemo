@@ -99,11 +99,18 @@ namespace IdentityDemo.Controllers
         }
 
         [HttpPost]
-        public ActionResult<ApplicationPermissionDTO> PostPermission(ApplicationPermission applicationPermission)
+        public ActionResult PostPermission(ApplicationPermissionDTO applicationPermissionDTO)
         {
             var manager = ServiceLocator.Current.GetInstance<IMiniSessionService>();
             var repo = new Repository(manager);
+
+            var applicationPermission = new ApplicationPermission();
+            applicationPermission.Name = applicationPermissionDTO.Name;
+            applicationPermission.Description = applicationPermission.Description;
+            applicationPermission.IsCustom = applicationPermission.IsCustom;
+
             repo.Save<ApplicationPermission>(applicationPermission);
+            manager.Session.Flush();
             return CreatedAtAction("PostPermission", new { id = applicationPermission.Id}, applicationPermission);
         }
 
