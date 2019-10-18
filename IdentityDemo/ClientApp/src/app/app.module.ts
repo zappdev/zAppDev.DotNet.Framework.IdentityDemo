@@ -20,6 +20,7 @@ import { RolesListComponent } from './Components/Administration/roles-list/roles
 import { RolesDetailsComponent } from './Components/Administration/roles-details/roles-details.component';
 import { OperationsListComponent } from './Components/Administration/operations-list/operations-list.component';
 import { OperationsDetailsComponent } from './Components/Administration/operations-details/operations-details.component';
+import { UnauthorizedComponent } from './Components/unauthorized/unauthorized.component';
 import { MatNativeDateModule, MatGridListModule, MatFormFieldModule, MatListModule, MatCardModule, MatTableModule, MatIconModule, MatInputModule, MatButtonModule, MatDatepickerModule, MatSelectModule, MatCheckboxModule, MatMenuModule } from '@angular/material';
 import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -44,7 +45,8 @@ import { AccessGuard } from './Helpers/AccessGuard';
     RolesListComponent,
     RolesDetailsComponent,
     OperationsListComponent,
-    OperationsDetailsComponent
+    OperationsDetailsComponent,
+    UnauthorizedComponent
   ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -86,7 +88,8 @@ import { AccessGuard } from './Helpers/AccessGuard';
       { path: 'operation-add', component: OperationsDetailsComponent, pathMatch: 'full', canActivate: [AccessGuard] },
       { path: 'operation-edit/:id', component: OperationsDetailsComponent, pathMatch: 'full', canActivate: [AccessGuard] },
       { path: 'createAdmin', component: CreateAdminComponent, pathMatch: 'full' },
-      { path: 'signIn', component: SignInComponent, pathMatch: 'full' }
+      { path: 'signIn', component: SignInComponent, pathMatch: 'full' },
+      { path: 'unauthorized', component: UnauthorizedComponent, pathMatch: 'full' }
     ])
   ],
   providers: [

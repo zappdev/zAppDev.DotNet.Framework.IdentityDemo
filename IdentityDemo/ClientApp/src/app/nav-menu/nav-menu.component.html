@@ -9,7 +9,7 @@
       <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" [ngClass]='{"show": isExpanded}'>
         <button *ngIf="isLoggedIn" mat-button [matMenuTriggerFor]="menu">Menu</button>
         <mat-menu #menu="matMenu">
-          <a class="nav-link text-dark" [routerLink]='["/"]'>Players</a>
+          <a class="nav-link text-dark" [routerLink]='["/players"]'>Players</a>
           <a class="nav-link text-dark" [routerLink]='["/teams"]'>Teams</a>
           <button  mat-menu-item [matMenuTriggerFor]="settings">Settings</button>
         </mat-menu>

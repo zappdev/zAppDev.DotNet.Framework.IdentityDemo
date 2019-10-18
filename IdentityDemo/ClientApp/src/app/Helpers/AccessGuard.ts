@@ -14,28 +14,26 @@ export class AccessGuard implements CanActivate {
     }
 
     canActivate(route: ActivatedRouteSnapshot): boolean {
+
+        let path = route.routeConfig.path;
+        const applicationOperations: ApplicationOperation[] = JSON.parse(localStorage.getItem('operations'));
+        const applicationOperation = applicationOperations.filter(x => x.name.includes(path))[0];
+        if (applicationOperation != null && applicationOperation.isAvailableToAnonymoys) { return true; }
         
         if (this.authService.isLoggedOut()) {
           this.router.navigate(['signIn']);
         }
-        if (!this.hasPermission(route)) {
-          this.router.navigate(['signIn']);
+        if (!this.hasPermission(applicationOperation)) {
+            this.router.navigate(['unauthorized']);
         }
         
         return true;
     }
-    hasPermission(route: ActivatedRouteSnapshot): boolean {
+    hasPermission(applicationOperation: ApplicationOperation): boolean {
+        if (applicationOperation.isAvailableToAllAuthorizedUsers) { return true; }
+
         let userJson = localStorage.getItem('applicationUser');
         const applicationUser: ApplicationUser = JSON.parse(userJson);
-
-        let path = route.routeConfig.path;
-
-        const applicationOperations: ApplicationOperation[] = JSON.parse(localStorage.getItem('operations'));
-        const applicationOperation = applicationOperations.filter(x => x.name == path)[0];
-        if (applicationOperation == null) {
-            return false;
-        }
-
 
         let userPermissions: ApplicationPermission[] = [];
         applicationUser.roles.forEach((role) => {
