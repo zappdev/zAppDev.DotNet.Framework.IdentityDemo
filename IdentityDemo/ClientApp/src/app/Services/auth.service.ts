@@ -27,21 +27,21 @@ export class AuthService {
     }
 
     consumeBackEnd(username: string, password: string) {
-        return this._httpClient.post<ApplicationUser>('api/SignIn', { username, password })
+        return this._httpClient.post('OAuth/Token', { username, password })
             .pipe();
     }
 
     private setSession(authResult) {
-        const expiresAt = moment().add(authResult.expiresIn, 'second');
+        const expiresAt = moment().utc(authResult.expiresIn).local();
 
-        localStorage.setItem('applicationUser', JSON.stringify(authResult.applicationUser));
-        localStorage.setItem('id_token', authResult.idToken);
-        localStorage.setItem("expires_at", JSON.stringify(expiresAt.valueOf()));
+        //localStorage.setItem('applicationUser', JSON.stringify(authResult.applicationUser));
+        localStorage.setItem('idToken', JSON.stringify(authResult.idToken));
+        localStorage.setItem("expiresIn", JSON.stringify(expiresAt.valueOf()));
     }
 
     logout() {
-        localStorage.removeItem("id_token");
-        localStorage.removeItem("expires_at");
+        localStorage.removeItem("idToken");
+        localStorage.removeItem("expiresIn");
         this.getLoggedIn.emit(false);
     }
 
@@ -54,7 +54,7 @@ export class AuthService {
     }
 
     getExpiration() {
-        const expiration = localStorage.getItem("expires_at");
+        const expiration = localStorage.getItem("expiresIn");
         const expiresAt = JSON.parse(expiration);
         return moment(expiresAt);
     }    

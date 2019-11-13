@@ -42,6 +42,7 @@ namespace IdentityDemo
             services.AddIdentityManager(Configuration);
            
             services.AddMvc()
+                .AddApplicationPart(typeof(OAuthController).Assembly)
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(options => {
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
@@ -50,25 +51,6 @@ namespace IdentityDemo
                         NamingStrategy = new CamelCaseNamingStrategy()
                     };
                 });
-            var secretValue =  Configuration.GetSection("Secret").Value;
-            var key = EncodingUtilities.StringToByteArray(secretValue, "ascii");
-            services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(x =>
-            {
-                x.RequireHttpsMetadata = false;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
-            });
             ServiceLocator.SetLocatorProvider(services.BuildServiceProvider());
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

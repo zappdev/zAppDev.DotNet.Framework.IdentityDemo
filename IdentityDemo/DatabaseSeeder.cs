@@ -278,12 +278,14 @@ namespace IdentityDemo
             var manageSettingsPermission = CreateOrUpdatePermission("ManageSettings", "Can Manage Settings", false, repo);
             var manageApplicationDataPermission = CreateOrUpdatePermission("ManageApplicationData", "Can Manage Application Data", false, repo);
             var customerSelectionAndAdminAddPermission = CreateOrUpdatePermission("CustomerSelectionAndAdmin_Add", "CustomerSelectionAndAdmin_Add", false, repo);
-               
+            CreateOrUpdateOperation("GeneralOperation", "ManageUser", ClaimTypes.GenericAction, false, false,
+                                        new[] { manageUsersPermission }, repo);
             allRoles = new List<ApplicationRole>
             {
                 CreateOrUpdateRole("Administrator", "Administrator",
                 new [] { manageUsersPermission, manageRolesPermission, managePermissionsPermission, manageOperationsPermission, manageSettingsPermission, manageApplicationDataPermission }, repo),
             };
+            _session.Flush();
             _session.Close();
             _session.Dispose();
         }

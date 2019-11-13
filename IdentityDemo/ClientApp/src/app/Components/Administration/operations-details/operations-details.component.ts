@@ -45,15 +45,27 @@ export class OperationsDetailsComponent implements OnInit {
     onSave() {
         if (this.add) {
             this._operationsService.addApplicationOperation(this.applicationOperation).subscribe(
-                () => { this._location.back(); }
+                () => {
+                    this._location.back();
+                }
             );
         } else {
             this._operationsService.editApplicationOperation(this.applicationOperation).subscribe(
-                () => { this._location.back(); }
+                () => {
+                    this._location.back();
+                }
             );
         }
     }
     trackPermission(x: ApplicationOperation, y: ApplicationOperation) {
         return x.id === y.id;
+    }
+    updateOperationsInStorage() {
+        localStorage.removeItem('operations');
+        this._operationsService.getApplicationOperations().subscribe(
+            (data: any) => {
+                localStorage.setItem('operations', JSON.stringify(data.body.value));
+            }
+        );
     }
 }
