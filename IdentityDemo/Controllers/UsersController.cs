@@ -4,14 +4,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using IdentityDemo.DAL;
 using IdentityDemo.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using zAppDev.DotNet.Framework.Data;
+using zAppDev.DotNet.Framework.Identity;
 using zAppDev.DotNet.Framework.Identity.Model;
 using zAppDev.DotNet.Framework.Utilities;
 
 namespace IdentityDemo.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -24,6 +27,7 @@ namespace IdentityDemo.Controllers
         }
 
         [HttpGet("list")]
+        [OperationAuthorize("ManageUser", "GeneralOperation", ClaimTypes.GenericAction)]
         public async Task<IActionResult> GetApplicationUsers()
         {
             var manager = ServiceLocator.Current.GetInstance<IMiniSessionService>();

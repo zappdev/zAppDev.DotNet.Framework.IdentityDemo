@@ -7,10 +7,12 @@ using NHibernate;
 using IdentityDemo.Domain;
 using IdentityDemo.DTOs;
 using zAppDev.DotNet.Framework.Utilities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IdentityDemo.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class TeamsController : ControllerBase
     {

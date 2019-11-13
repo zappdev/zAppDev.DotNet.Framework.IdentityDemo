@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using IdentityDemo.DAL;
 using IdentityDemo.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using zAppDev.DotNet.Framework.Data;
 using zAppDev.DotNet.Framework.Identity.Model;
@@ -12,6 +13,7 @@ using zAppDev.DotNet.Framework.Utilities;
 namespace IdentityDemo.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class RolesController : ControllerBase
     {

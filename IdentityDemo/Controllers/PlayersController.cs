@@ -7,10 +7,12 @@ using NHibernate;
 using IdentityDemo.Domain;
 using IdentityDemo.DTOs;
 using zAppDev.DotNet.Framework.Utilities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IdentityDemo.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class PlayersController : ControllerBase
     {
@@ -22,6 +24,7 @@ namespace IdentityDemo.Controllers
             ServiceLocator = new ServiceLocator(serviceProvider);
             ServiceLocator.SetLocatorProvider(serviceProvider);
         }
+        
         [HttpGet("list")]
         public async Task<IActionResult> GetPlayers()
         {
