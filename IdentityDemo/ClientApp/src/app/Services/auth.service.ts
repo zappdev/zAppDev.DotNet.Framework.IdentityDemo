@@ -3,6 +3,7 @@ import { ApplicationUser } from '../Models/Identity/ApplicationUser';
 import { HttpClient } from '@angular/common/http';
 
 import * as _moment from 'moment';
+import { UsersService } from './users.service';
 const moment = _moment;
 
 @Injectable({
@@ -13,14 +14,14 @@ export class AuthService {
 
     private _httpClient: HttpClient
 
-    constructor(httpClient: HttpClient) {
+    constructor(httpClient: HttpClient, private _usersService: UsersService) {
         this._httpClient = httpClient;
     }
 
     signIn(username: string, password: string) {
         return this.consumeBackEnd(username, password).subscribe(
             (data) => {
-                this.setSession(data)
+                this.setSession(data);
                 this.getLoggedIn.emit(true);
             },
         );

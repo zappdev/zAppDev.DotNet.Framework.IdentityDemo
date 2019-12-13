@@ -32,11 +32,15 @@ export class SignInComponent implements OnInit {
         this._usersService.getApplicationUser(this.appUser.username).subscribe(
             (data: any) => {
                 localStorage.setItem('applicationUser', JSON.stringify(data.body.value));
+            },
+            () => { },
+            () => {
+                this.redirect();
             }
         );
-        setTimeout(() => {
+        /*setTimeout(() => {
             this.redirect();
-        }, 1000);
+        }, 1000);*/
        // setInterval(this.redirect, 700);
     }
 
