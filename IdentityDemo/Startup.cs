@@ -16,6 +16,7 @@ using zAppDev.DotNet.Framework.Data;
 using zAppDev.DotNet.Framework.Data.DAL;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Http;
 
 namespace IdentityDemo
 {
@@ -39,8 +40,17 @@ namespace IdentityDemo
                 // Set a short timeout for easy testing.
                 options.IdleTimeout = TimeSpan.FromSeconds(60);
             });
-            services.AddIdentityManager(Configuration);
-           
+            services.AddIdentityManager(Configuration, new PasswordPolicyConfig
+                {
+                    RequireDigit = true,
+                    RequiredLength = 6,
+                    RequireLowercase = true,
+                    RequireNonLetterOrDigit = true,
+                    RequireUppercase = true
+                });
+            
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            
             services.AddMvc()
                 .AddApplicationPart(typeof(OAuthController).Assembly)
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
@@ -86,6 +96,8 @@ namespace IdentityDemo
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
             });
+            zAppDev.DotNet.Framework.Mvc.Helper.AppContext.Configure(app.ApplicationServices
+                    .GetRequiredService<IHttpContextAccessor>());
             var factory = app.ApplicationServices.GetService(typeof(ISessionFactory)) as ISessionFactory;
             var seeder = new DatabaseSeeder(app.ApplicationServices.GetService<ISessionFactory>());
             seeder.UpdateAuthorizationTables();
