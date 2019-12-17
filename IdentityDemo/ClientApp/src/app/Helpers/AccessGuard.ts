@@ -21,7 +21,10 @@ export class AccessGuard implements CanActivate {
 
         let path = route.routeConfig.path;
         const applicationOperations: ApplicationOperation[] = JSON.parse(localStorage.getItem('operations'));
-        const applicationOperation = applicationOperations.filter(x => x.name.includes(path))[0];
+        let applicationOperation;
+        if (applicationOperations != null || applicationOperations !== null) {
+           applicationOperation = applicationOperations.filter(x => x.name.includes(path))[0];
+        }
         if (applicationOperation != null && applicationOperation.isAvailableToAnonymoys) { return true; }
         
         if (!this.hasPermission(applicationOperation)) {

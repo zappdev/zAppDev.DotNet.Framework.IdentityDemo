@@ -3,6 +3,8 @@ import { ApplicationUser } from '../../Models/Identity/ApplicationUser';
 import { AuthService } from '../../Services/auth.service';
 import { Router } from '@angular/router';
 import { UsersService } from '../../Services/users.service';
+import { resolve, reject } from 'q';
+import { OperationsService } from '../../Services/operations.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -14,13 +16,9 @@ import { UsersService } from '../../Services/users.service';
 
 export class SignInComponent implements OnInit {
 
-    private _authSerive: AuthService;
-    private _router: Router;
     public appUser: ApplicationUser;
 
-    constructor(usersService: AuthService, router: Router, private _usersService: UsersService) {
-        this._authSerive = usersService;
-        this._router = router;
+    constructor(private _authService: AuthService, private _router: Router, private _usersService: UsersService, private _operationsService: OperationsService) {
     }
 
     ngOnInit() {
@@ -28,16 +26,26 @@ export class SignInComponent implements OnInit {
     }
 
     signIn() {
-        this._authSerive.signIn(this.appUser.username, this.appUser.password);
-        this._usersService.getApplicationUser(this.appUser.username).subscribe(
-            (data: any) => {
-                localStorage.setItem('applicationUser', JSON.stringify(data.body.value));
-            },
-            () => { },
-            () => {
-                this.redirect();
-            }
-        );
+        this._authService.signIn(this.appUser.username, this.appUser.password)
+            .then(
+                () => {
+                    this._usersService.getApplicationUser(this.appUser.username).subscribe(
+                        (data: any) => {
+                            localStorage.setItem('applicationUser', JSON.stringify(data.body.value));
+                        }
+                    );
+                    this._operationsService.getApplicationOperations().subscribe(
+                        (data: any) => {
+                            localStorage.setItem('operations', JSON.stringify(data.body.value));
+                        }
+                    );
+                    setTimeout(() => {
+                        this.redirect();
+                    }, 1000)
+                }
+            );
+            //.then(() => {  });
+            
         /*setTimeout(() => {
             this.redirect();
         }, 1000);*/

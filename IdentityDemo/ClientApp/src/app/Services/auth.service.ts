@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 
 import * as _moment from 'moment';
 import { UsersService } from './users.service';
+import { resolve } from 'path';
+import { reject } from 'q';
 const moment = _moment;
 
 @Injectable({
@@ -19,12 +21,17 @@ export class AuthService {
     }
 
     signIn(username: string, password: string) {
-        return this.consumeBackEnd(username, password).subscribe(
-            (data) => {
-                this.setSession(data);
-                this.getLoggedIn.emit(true);
-            },
-        );
+        var promise = new Promise((resolve, reject) => {
+            this.consumeBackEnd(username, password).subscribe(
+                (data) => {
+                    this.setSession(data);
+                    this.getLoggedIn.emit(true);
+                },
+                () => { reject();},
+                () => { resolve();}
+            );
+        });
+        return promise;
     }
 
     consumeBackEnd(username: string, password: string) {
