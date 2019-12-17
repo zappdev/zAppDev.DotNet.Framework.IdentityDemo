@@ -56,6 +56,7 @@ namespace IdentityDemo.Controllers
         }
 
         [HttpGet("{username}")]
+        [OperationAuthorize("ManageUser", "EditUser", ClaimTypes.ControllerAction)]
         public async Task<IActionResult> GetApplicationUser(string username)
         {
             var manager = ServiceLocator.Current.GetInstance<IMiniSessionService>();
@@ -88,6 +89,17 @@ namespace IdentityDemo.Controllers
                     IsCustom = role.IsCustom,
                     Name = role.Name
                 };
+                foreach(var permission in role.Permissions)
+                {
+                    var permissionDTO = new ApplicationPermissionDTO
+                    {
+                        Description = permission.Description,
+                        Id = permission.Id,
+                        IsCustom = permission.IsCustom,
+                        Name = permission.Name
+                    };
+                    roleDTO.Permissions.Add(permissionDTO);
+                }
                 userDto.roles.Add(roleDTO);
             }
             return Ok(new
@@ -99,6 +111,7 @@ namespace IdentityDemo.Controllers
         }
 
         [HttpPut("{username}")]
+        [OperationAuthorize("ManageUser", "SaveUser", ClaimTypes.ControllerAction)]
         public ActionResult PutUser(ApplicationUserDTO userDTO,string username)
         {
             var manager = ServiceLocator.Current.GetInstance<IMiniSessionService>();
@@ -123,6 +136,7 @@ namespace IdentityDemo.Controllers
         }
         
         [HttpPost]
+        [OperationAuthorize("ManageUser", "SaveUser", ClaimTypes.ControllerAction)]
         public ActionResult<ApplicationUserDTO> PostUser(ApplicationUserDTO userDTO)
         {
             if (userDTO.password?.Trim() != userDTO.passwordRepeat?.Trim())
@@ -156,6 +170,7 @@ namespace IdentityDemo.Controllers
         }
 
         [HttpDelete("{id}")]
+        [OperationAuthorize("ManageUser", "DeleteUser", ClaimTypes.ControllerAction)]
         public ActionResult DeleteUser(string username)
         {
             var manager = ServiceLocator.Current.GetInstance<IMiniSessionService>();

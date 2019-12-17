@@ -50,6 +50,7 @@ export class AuthService {
     logout() {
         localStorage.removeItem("idToken");
         localStorage.removeItem("expiresIn");
+        localStorage.removeItem("applicationUser");
         this.getLoggedIn.emit(false);
     }
 

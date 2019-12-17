@@ -8,6 +8,8 @@ using IdentityDemo.Domain;
 using IdentityDemo.DTOs;
 using zAppDev.DotNet.Framework.Utilities;
 using Microsoft.AspNetCore.Authorization;
+using zAppDev.DotNet.Framework.Identity;
+using zAppDev.DotNet.Framework.Identity.Model;
 
 namespace IdentityDemo.Controllers
 {

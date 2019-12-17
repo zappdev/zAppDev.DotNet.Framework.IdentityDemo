@@ -7,6 +7,7 @@ using IdentityDemo.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using zAppDev.DotNet.Framework.Data;
+using zAppDev.DotNet.Framework.Identity;
 using zAppDev.DotNet.Framework.Identity.Model;
 using zAppDev.DotNet.Framework.Utilities;
 
@@ -26,6 +27,7 @@ namespace IdentityDemo.Controllers
         }
 
         [HttpGet("list")]
+        [OperationAuthorize("ManageRole", "GeneralOperation", ClaimTypes.GenericAction)]
         public async Task<IActionResult> GetApplicationRoles()
         {
             var manager = ServiceLocator.Current.GetInstance<IMiniSessionService>();
@@ -64,6 +66,7 @@ namespace IdentityDemo.Controllers
         }
 
         [HttpGet("{id}")]
+        [OperationAuthorize("ManageRole", "EditRole", ClaimTypes.ControllerAction)]
         public async Task<IActionResult> GetApplicationRole(int? id)
         {
             var manager = ServiceLocator.Current.GetInstance<IMiniSessionService>();
@@ -105,6 +108,7 @@ namespace IdentityDemo.Controllers
         }
 
         [HttpPut("{id}")]
+        [OperationAuthorize("ManageRole", "SaveRole", ClaimTypes.ControllerAction)]
         public ActionResult PutApplicationRole(ApplicationRoleDTO applicationRoleDTO, int? id)
         {
             var manager = ServiceLocator.Current.GetInstance<IMiniSessionService>();
@@ -130,6 +134,7 @@ namespace IdentityDemo.Controllers
         }
 
         [HttpPost]
+        [OperationAuthorize("ManageRole", "SaveRole", ClaimTypes.ControllerAction)]
         public ActionResult<ApplicationRoleDTO> PostRole(ApplicationRoleDTO applicationRoleDTO)
         {
             var manager = ServiceLocator.Current.GetInstance<IMiniSessionService>();
@@ -152,6 +157,7 @@ namespace IdentityDemo.Controllers
         }
 
         [HttpDelete("{id}")]
+        [OperationAuthorize("ManageRole", "DeleteRole", ClaimTypes.ControllerAction)]
         public ActionResult DeleteRole(int id)
         {
             var manager = ServiceLocator.Current.GetInstance<IMiniSessionService>();

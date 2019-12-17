@@ -7,6 +7,7 @@ using IdentityDemo.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using zAppDev.DotNet.Framework.Data;
+using zAppDev.DotNet.Framework.Identity;
 using zAppDev.DotNet.Framework.Identity.Model;
 using zAppDev.DotNet.Framework.Utilities;
 
@@ -26,6 +27,7 @@ namespace IdentityDemo.Controllers
         }
 
         [HttpGet("list")]
+        [OperationAuthorize("ManagePermission", "GeneralOperation", ClaimTypes.GenericAction)]
         public async Task<IActionResult> GetApplicationPermissions()
         {
             var manager = ServiceLocator.Current.GetInstance<IMiniSessionService>();
@@ -53,7 +55,8 @@ namespace IdentityDemo.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetApplicationPermissions(int? id)
+        [OperationAuthorize("ManagePermission", "EditPermission", ClaimTypes.ControllerAction)]
+        public async Task<IActionResult> GetApplicationPermission(int? id)
         {
             var manager = ServiceLocator.Current.GetInstance<IMiniSessionService>();
             var repo = new Repository(manager);
@@ -83,6 +86,7 @@ namespace IdentityDemo.Controllers
         }
 
         [HttpPut("{id}")]
+        [OperationAuthorize("ManagePermission", "SavePermission", ClaimTypes.ControllerAction)]
         public ActionResult PutApplicationPermission(ApplicationPermissionDTO applicationPermissionsDTO, int? id)
         {
             var manager = ServiceLocator.Current.GetInstance<IMiniSessionService>();
@@ -101,6 +105,7 @@ namespace IdentityDemo.Controllers
         }
 
         [HttpPost]
+        [OperationAuthorize("ManagePermission", "SavePermission", ClaimTypes.ControllerAction)]
         public ActionResult PostPermission(ApplicationPermissionDTO applicationPermissionDTO)
         {
             var manager = ServiceLocator.Current.GetInstance<IMiniSessionService>();
@@ -117,6 +122,7 @@ namespace IdentityDemo.Controllers
         }
 
         [HttpDelete("{id}")]
+        [OperationAuthorize("ManagePermission", "DeletePermission", ClaimTypes.ControllerAction)]
         public ActionResult DeletePermission(int id)
         {
             var manager = ServiceLocator.Current.GetInstance<IMiniSessionService>();

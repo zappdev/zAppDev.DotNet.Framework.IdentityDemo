@@ -7,6 +7,7 @@ using IdentityDemo.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using zAppDev.DotNet.Framework.Data;
+using zAppDev.DotNet.Framework.Identity;
 using zAppDev.DotNet.Framework.Identity.Model;
 using zAppDev.DotNet.Framework.Utilities;
 
@@ -28,6 +29,7 @@ namespace IdentityDemo.Controllers
         }
 
         [HttpGet("list")]
+        [OperationAuthorize("ManageOperation", "GeneralOperation", ClaimTypes.GenericAction)]
         public async Task<IActionResult> GetApplicationOperations()
         {
             var manager = ServiceLocator.Current.GetInstance<IMiniSessionService>();
@@ -68,6 +70,7 @@ namespace IdentityDemo.Controllers
         }
 
         [HttpGet("{id}")]
+        [OperationAuthorize("ManageOperation", "EditOperation", ClaimTypes.ControllerAction)]
         public async Task<IActionResult> GetApplicationOperation(int? id)
         {
             var manager = ServiceLocator.Current.GetInstance<IMiniSessionService>();
@@ -110,6 +113,7 @@ namespace IdentityDemo.Controllers
         }
 
         [HttpPut("{id}")]
+        [OperationAuthorize("ManageOperation", "SaveOperation", ClaimTypes.ControllerAction)]
         public ActionResult PutApplicationOperation(ApplicationOperationDTO applicationOperationDTO, int? id)
         {
             var manager = ServiceLocator.Current.GetInstance<IMiniSessionService>();
@@ -133,6 +137,7 @@ namespace IdentityDemo.Controllers
         }
 
         [HttpPost]
+        [OperationAuthorize("ManageOperation", "SaveOperation", ClaimTypes.ControllerAction)]
         public ActionResult<ApplicationOperationDTO> PostOperation(ApplicationOperationDTO applicationOperationDTO)
         {
             var manager = ServiceLocator.Current.GetInstance<IMiniSessionService>();
@@ -154,6 +159,7 @@ namespace IdentityDemo.Controllers
         }
 
         [HttpDelete("{id}")]
+        [OperationAuthorize("ManageOperation", "DeleteOperation", ClaimTypes.ControllerAction)]
         public ActionResult DeleteOperation(int id)
         {
             var manager = ServiceLocator.Current.GetInstance<IMiniSessionService>();
